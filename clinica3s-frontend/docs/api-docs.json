@@ -1,0 +1,2159 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Clinica3S API",
+    "description": "API REST para gestión de clínica odontológica - Sistema de citas, pacientes, dentistas y servicios",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Pacientes",
+      "description": "Gestión de pacientes de la clínica"
+    },
+    {
+      "name": "Citas",
+      "description": "Gestión de citas médicas"
+    },
+    {
+      "name": "Dentistas",
+      "description": "Gestión de dentistas de la clínica"
+    },
+    {
+      "name": "Especialidades",
+      "description": "Gestión de especialidades odontológicas"
+    },
+    {
+      "name": "Reportes",
+      "description": "Estadísticas y reportes para Business Intelligence"
+    },
+    {
+      "name": "Autenticación",
+      "description": "Endpoints para login y gestión de cuenta propia"
+    },
+    {
+      "name": "Servicios",
+      "description": "Gestión de servicios odontológicos"
+    },
+    {
+      "name": "Usuarios",
+      "description": "Gestión de usuarios del sistema (solo ADMIN)"
+    }
+  ],
+  "paths": {
+    "/api/users/{id}/enabled": {
+      "put": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Habilitar/Deshabilitar usuario",
+        "description": "Activa o desactiva un usuario. Solo ADMIN.",
+        "operationId": "toggleUserEnabled",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "enabled",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/specialties/{id}": {
+      "get": {
+        "tags": [
+          "Especialidades"
+        ],
+        "summary": "Obtener especialidad",
+        "description": "Obtiene una especialidad por su ID",
+        "operationId": "getSpecialty",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la especialidad",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Specialty"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Especialidades"
+        ],
+        "summary": "Actualizar especialidad",
+        "description": "Actualiza una especialidad existente. Solo ADMIN.",
+        "operationId": "updateSpecialty",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la especialidad",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Specialty"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Specialty"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Especialidades"
+        ],
+        "summary": "Eliminar especialidad",
+        "description": "Elimina una especialidad. Solo ADMIN.",
+        "operationId": "deleteSpecialty",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la especialidad",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/services/{id}": {
+      "get": {
+        "tags": [
+          "Servicios"
+        ],
+        "summary": "Obtener servicio",
+        "description": "Obtiene un servicio por su ID",
+        "operationId": "getService",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del servicio",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Servicios"
+        ],
+        "summary": "Actualizar servicio",
+        "description": "Actualiza un servicio existente. Solo ADMIN.",
+        "operationId": "updateService",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del servicio",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Service"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Servicios"
+        ],
+        "summary": "Eliminar servicio",
+        "description": "Elimina un servicio. Solo ADMIN.",
+        "operationId": "deleteService",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del servicio",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/patients/{id}": {
+      "get": {
+        "tags": [
+          "Pacientes"
+        ],
+        "summary": "Obtener paciente",
+        "description": "Obtiene un paciente por su ID",
+        "operationId": "getPatient",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del paciente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Pacientes"
+        ],
+        "summary": "Actualizar paciente",
+        "description": "Actualiza los datos de un paciente existente. Solo ADMIN y RECEPTIONIST.",
+        "operationId": "updatePatient",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del paciente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Patient"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Pacientes"
+        ],
+        "summary": "Eliminar paciente",
+        "description": "Elimina un paciente. Solo ADMIN.",
+        "operationId": "deletePatient",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del paciente",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/dentists/{id}": {
+      "get": {
+        "tags": [
+          "Dentistas"
+        ],
+        "summary": "Obtener dentista",
+        "description": "Obtiene un dentista por su ID",
+        "operationId": "getDentist",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del dentista",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dentist"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Dentistas"
+        ],
+        "summary": "Actualizar dentista",
+        "description": "Actualiza los datos de un dentista. Solo ADMIN.",
+        "operationId": "updateDentist",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del dentista",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dentist"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dentist"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Dentistas"
+        ],
+        "summary": "Eliminar dentista",
+        "description": "Elimina un dentista. Solo ADMIN.",
+        "operationId": "deleteDentist",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del dentista",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/auth/change-password": {
+      "put": {
+        "tags": [
+          "Autenticación"
+        ],
+        "summary": "Cambiar contraseña",
+        "description": "Permite al usuario autenticado cambiar su propia contraseña.",
+        "operationId": "changePassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Datos inválidos o contraseñas no coinciden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Contraseña cambiada exitosamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autenticado o contraseña actual incorrecta",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/{id}/status": {
+      "put": {
+        "tags": [
+          "Citas"
+        ],
+        "summary": "Actualizar estado de cita",
+        "description": "Cambia el estado de una cita (PENDING, COMPLETED, NO_SHOW)",
+        "operationId": "updateStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la cita",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Nuevo estado",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "COMPLETED",
+                "NO_SHOW"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estado actualizado exitosamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Sin permisos para esta operación",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cita no encontrada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/{id}/pay": {
+      "put": {
+        "tags": [
+          "Citas"
+        ],
+        "summary": "Registrar pago de cita",
+        "description": "Marca todos los servicios de la cita como pagados y actualiza el estado a COMPLETED.",
+        "operationId": "payAppointment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la cita",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pago registrado exitosamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Sin permisos para esta operación",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cita no encontrada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Listar usuarios",
+        "description": "Obtiene todos los usuarios del sistema. Solo ADMIN.",
+        "operationId": "getAllUsers",
+        "responses": {
+          "403": {
+            "description": "Sin permisos - Solo ADMIN",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppUser"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Lista de usuarios obtenida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppUser"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Crear nuevo usuario",
+        "description": "Crea un nuevo usuario en el sistema. Si el rol es DENTIST, también crea el registro de dentista asociado. Solo ADMIN.",
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "Sin permisos - Solo ADMIN",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppUser"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Usuario creado exitosamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppUser"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El nombre de usuario ya existe",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppUser"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de registro inválidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/specialties": {
+      "get": {
+        "tags": [
+          "Especialidades"
+        ],
+        "summary": "Listar especialidades",
+        "description": "Obtiene todas las especialidades odontológicas",
+        "operationId": "getAllSpecialties",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Specialty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Especialidades"
+        ],
+        "summary": "Crear especialidad",
+        "description": "Crea una nueva especialidad. Solo ADMIN.",
+        "operationId": "createSpecialty",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Specialty"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Specialty"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services": {
+      "get": {
+        "tags": [
+          "Servicios"
+        ],
+        "summary": "Listar servicios (paginado)",
+        "description": "Obtiene todos los servicios odontológicos disponibles con paginación",
+        "operationId": "getAllServices",
+        "parameters": [
+          {
+            "name": "pageable",
+            "in": "query",
+            "description": "Número de página (0-indexed)",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageService"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Servicios"
+        ],
+        "summary": "Crear servicio",
+        "description": "Crea un nuevo servicio. Solo ADMIN.",
+        "operationId": "createService",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Service"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/patients": {
+      "get": {
+        "tags": [
+          "Pacientes"
+        ],
+        "summary": "Listar pacientes (paginado con filtros)",
+        "description": "Obtiene todos los pacientes registrados con paginación. Filtros opcionales: nombre, teléfono, email.",
+        "operationId": "getAllPatients",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filtrar por nombre (búsqueda parcial)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "Filtrar por teléfono (búsqueda parcial)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Filtrar por email (búsqueda parcial)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "description": "Paginación",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagePatient"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Pacientes"
+        ],
+        "summary": "Crear paciente",
+        "description": "Registra un nuevo paciente. Solo ADMIN y RECEPTIONIST.",
+        "operationId": "createPatient",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Patient"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Autenticación"
+        ],
+        "summary": "Iniciar sesión",
+        "description": "Autentica un usuario y devuelve un token JWT para acceder a los endpoints protegidos.",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login exitoso, devuelve token JWT",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de login inválidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments": {
+      "get": {
+        "tags": [
+          "Citas"
+        ],
+        "summary": "Listar citas (paginado con filtros)",
+        "description": "Obtiene las citas con filtros opcionales. ADMIN/RECEPTIONIST ven todas, DENTIST solo las suyas. Se pueden combinar múltiples filtros: patientId, dentistId, status, startDate, endDate.",
+        "operationId": "getAppointments",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "query",
+            "description": "ID del paciente",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "dentistId",
+            "in": "query",
+            "description": "ID del dentista",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Estado de la cita (PENDING, COMPLETED, NO_SHOW)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "COMPLETED",
+                "NO_SHOW"
+              ]
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Fecha de inicio (formato: yyyy-MM-dd'T'HH:mm:ss)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Fecha de fin (formato: yyyy-MM-dd'T'HH:mm:ss)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "description": "Paginación",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de citas obtenida exitosamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageAppointmentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autenticado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageAppointmentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Citas"
+        ],
+        "summary": "Crear nueva cita",
+        "description": "Crea una nueva cita con los servicios especificados. Solo ADMIN y RECEPTIONIST.",
+        "operationId": "createAppointment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppointmentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cita creada exitosamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Sin permisos para esta operación",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Obtener usuario por ID",
+        "description": "Obtiene un usuario específico. Solo ADMIN.",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppUser"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Eliminar usuario",
+        "description": "Elimina un usuario del sistema. Solo ADMIN.",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/services/specialty/{specialtyId}": {
+      "get": {
+        "tags": [
+          "Servicios"
+        ],
+        "summary": "Listar servicios por especialidad",
+        "description": "Obtiene todos los servicios de una especialidad específica",
+        "operationId": "getServicesBySpecialty",
+        "parameters": [
+          {
+            "name": "specialtyId",
+            "in": "path",
+            "description": "ID de la especialidad",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Service"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reports/dashboard": {
+      "get": {
+        "tags": [
+          "Reportes"
+        ],
+        "summary": "Obtener estadísticas del dashboard",
+        "description": "Devuelve estadísticas generales: total pacientes, citas, ingresos, pagos pendientes, stats por mes y por dentista. Se puede filtrar opcionalmente por año.",
+        "operationId": "getDashboardStats",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Año para filtrar las estadísticas (ej: 2025, 2026). Si no se especifica, se incluyen todos los años.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "No autenticado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardStatsDTO"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Estadísticas obtenidas exitosamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardStatsDTO"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Sin permisos para esta operación",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardStatsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dentists": {
+      "get": {
+        "tags": [
+          "Dentistas"
+        ],
+        "summary": "Listar dentistas (paginado con filtros)",
+        "description": "Obtiene todos los dentistas de la clínica con paginación. Filtros opcionales: nombre, especialidad.",
+        "operationId": "getAllDentists",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filtrar por nombre (búsqueda parcial)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specialtyId",
+            "in": "query",
+            "description": "Filtrar por ID de especialidad",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "description": "Paginación",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageDentist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/{id}": {
+      "get": {
+        "tags": [
+          "Citas"
+        ],
+        "summary": "Obtener cita por ID",
+        "description": "Obtiene el detalle de una cita específica",
+        "operationId": "getAppointment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la cita",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cita encontrada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cita no encontrada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppointmentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AppUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "DENTIST",
+              "RECEPTIONIST"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          }
+        }
+      },
+      "GrantedAuthority": {
+        "type": "object",
+        "properties": {
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "Specialty": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Service": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "standardCost": {
+            "type": "number",
+            "format": "double"
+          },
+          "listPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "specialty": {
+            "$ref": "#/components/schemas/Specialty"
+          }
+        }
+      },
+      "Patient": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "Dentist": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "licenseNumber": {
+            "type": "string"
+          },
+          "commissionRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "user": {
+            "$ref": "#/components/schemas/AppUser"
+          },
+          "specialties": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Specialty"
+            }
+          }
+        }
+      },
+      "ChangePasswordRequest": {
+        "required": [
+          "confirmPassword",
+          "currentPassword",
+          "newPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "maxLength": 2147483647,
+            "minLength": 6,
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          }
+        }
+      },
+      "AppointmentResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "COMPLETED",
+              "NO_SHOW"
+            ]
+          },
+          "totalAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "patient": {
+            "$ref": "#/components/schemas/PatientInfo"
+          },
+          "dentist": {
+            "$ref": "#/components/schemas/DentistInfo"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetailInfo"
+            }
+          }
+        }
+      },
+      "DentistInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "licenseNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "DetailInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "priceApplied": {
+            "type": "number",
+            "format": "double"
+          },
+          "paymentDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "paid": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PatientInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "RegisterRequest": {
+        "required": [
+          "password",
+          "role",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "DENTIST",
+              "RECEPTIONIST"
+            ]
+          },
+          "dentistName": {
+            "type": "string"
+          },
+          "licenseNumber": {
+            "type": "string"
+          },
+          "commissionRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "specialtyIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
+      "LoginRequest": {
+        "required": [
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "DENTIST",
+              "RECEPTIONIST"
+            ]
+          },
+          "username": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dentistId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AppointmentRequest": {
+        "required": [
+          "dateTime",
+          "dentistId",
+          "patientId",
+          "services"
+        ],
+        "type": "object",
+        "properties": {
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "patientId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dentistId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceDetailRequest"
+            }
+          }
+        }
+      },
+      "ServiceDetailRequest": {
+        "required": [
+          "serviceId"
+        ],
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Pageable": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PageService": {
+        "type": "object",
+        "properties": {
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageableObject": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paged": {
+            "type": "boolean"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          }
+        }
+      },
+      "SortObject": {
+        "type": "object",
+        "properties": {
+          "unsorted": {
+            "type": "boolean"
+          },
+          "sorted": {
+            "type": "boolean"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DashboardStatsDTO": {
+        "type": "object",
+        "properties": {
+          "totalPatients": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalAppointments": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "completedAppointments": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "unpaidAppointments": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pendingAppointments": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalRevenue": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalInvoicing": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalCost": {
+            "type": "number",
+            "format": "double"
+          },
+          "pendingPayments": {
+            "type": "number",
+            "format": "double"
+          },
+          "monthlyStats": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonthlyStats"
+            }
+          },
+          "dentistStats": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DentistStats"
+            }
+          }
+        }
+      },
+      "DentistStats": {
+        "type": "object",
+        "properties": {
+          "dentistId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dentistName": {
+            "type": "string"
+          },
+          "appointments": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "revenue": {
+            "type": "number",
+            "format": "double"
+          },
+          "commission": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "MonthlyStats": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "string"
+          },
+          "appointments": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "revenue": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PagePatient": {
+        "type": "object",
+        "properties": {
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Patient"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageDentist": {
+        "type": "object",
+        "properties": {
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dentist"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageAppointmentResponse": {
+        "type": "object",
+        "properties": {
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AppointmentResponse"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "Introduce el token JWT obtenido del endpoint /api/auth/login",
+        "name": "bearerAuth",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

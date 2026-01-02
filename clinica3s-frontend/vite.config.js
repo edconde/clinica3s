@@ -11,6 +11,10 @@ export default defineConfig({
         {
           src: 'node_modules/primeicons/fonts/*',
           dest: 'assets/fonts'
+        },
+        {
+          src: 'node_modules/primereact/resources/themes/lara-light-indigo/fonts/*',
+          dest: 'assets/fonts'
         }
       ]
     })

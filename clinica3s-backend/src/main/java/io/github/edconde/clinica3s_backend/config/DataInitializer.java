@@ -46,13 +46,83 @@ public class DataInitializer implements CommandLineRunner {
             return;
         }
 
+        // En preproducción, insertar datos condicionalmente según tabla
+        if ("preproduction".equalsIgnoreCase(activeProfile)) {
+            log.info("Modo preproducción: insertando datos solo en tablas vacías...");
+            initializeDataConditionally();
+            return;
+        }
+
+        // Modo development: solo si la BD está completamente vacía
         if (userRepository.count() > 0) {
             log.info("Base de datos ya inicializada.");
             return;
         }
 
         log.info("Inicializando datos de prueba...");
+        initializeAllData();
+    }
 
+    private void initializeDataConditionally() {
+        // Crear especialidades solo si no existen
+        List<Specialty> specialties;
+        if (specialtyRepository.count() == 0) {
+            specialties = createSpecialties();
+        } else {
+            specialties = specialtyRepository.findAll();
+            log.info("Especialidades ya existen ({}), omitiendo creación", specialties.size());
+        }
+
+        // Crear servicios solo si no existen
+        List<Service> services;
+        if (serviceRepository.count() == 0) {
+            services = createServices(specialties);
+        } else {
+            services = serviceRepository.findAll();
+            log.info("Servicios ya existen ({}), omitiendo creación", services.size());
+        }
+
+        // Crear usuario admin si no existe
+        createAdminUser();
+
+        // Crear recepcionistas solo si no hay usuarios con ese rol
+        if (userRepository.countByRole(Role.RECEPTIONIST) == 0) {
+            createReceptionists();
+        } else {
+            log.info("Recepcionistas ya existen, omitiendo creación");
+        }
+
+        // Crear dentistas solo si no existen
+        List<Dentist> dentists;
+        if (dentistRepository.count() == 0) {
+            dentists = createDentists(specialties);
+        } else {
+            dentists = dentistRepository.findAll();
+            log.info("Dentistas ya existen ({}), omitiendo creación", dentists.size());
+        }
+
+        // Crear pacientes solo si no existen
+        List<Patient> patients;
+        if (patientRepository.count() == 0) {
+            patients = createPatients(10000);
+        } else {
+            patients = patientRepository.findAll();
+            log.info("Pacientes ya existen ({}), omitiendo creación", patients.size());
+        }
+
+        // Crear citas solo si no existen
+        if (appointmentRepository.count() == 0) {
+            createAppointments(patients, dentists, services, 20000);
+        } else {
+            log.info("Citas ya existen ({}), omitiendo creación", appointmentRepository.count());
+        }
+
+        log.info("===========================================");
+        log.info("DATOS DE PREPRODUCCIÓN VERIFICADOS/CARGADOS");
+        log.info("===========================================");
+    }
+
+    private void initializeAllData() {
         // Crear especialidades
         List<Specialty> specialties = createSpecialties();
 
