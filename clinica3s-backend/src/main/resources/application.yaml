@@ -1,3 +1,25 @@
 spring:
   application:
-    name: clinica3s backend
+    name: clinica3s-backend
+  jackson:
+    time-zone: Europe/Madrid
+  profiles:
+    active: ${ENVIRONMENT:development}
+
+# Por defecto en local la app arranca con el profile development.
+# Para lanzar la app con un profile específico, podemos hacerlo de las siguientes formas:
+# 1: Estableciendo la variable de entorno ENVIRONMENT:
+# "export ENVIRONMENT=development/production"
+# 2: Añadiendo la propiedad spring.profiles.active al arrancar la app:
+# "java -jar -Dspring.profiles.active=development/local/preproduction/production build/libs/accesoch-backend-1.0.0.jar"
+# o "mvn spring-boot:run -Dspring-boot.run.profiles=development/production"
+
+server:
+  port: ${SERVER_PORT:8080}
+
+# Admin inicial (desde variables de entorno)
+application:
+  users:
+    admin:
+      username: ${ADMIN_USERNAME:admin}
+      password: ${ADMIN_PASSWORD:admin123}

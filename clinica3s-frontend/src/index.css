@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+/* PrimeReact Theme */
+@import "primereact/resources/themes/lara-light-indigo/theme.css";
+@import "primereact/resources/primereact.min.css";
+@import "primeicons/primeicons.css";
+@import "primeflex/primeflex.css";
+
+/* Custom styles */
+:root {
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 60px;
+  --header-height: 60px;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
+}
+
+/* Layout utilities */
+.main-container {
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  padding: 1.5rem;
+}
+
+/* Sidebar transitions */
+.sidebar-transition {
+  transition: width 0.3s ease, transform 0.3s ease;
+}
+
+/* Card hover effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Status badge colors */
+.status-pending {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+.status-completed {
+  background-color: #d1fae5 !important;
+  color: #065f46 !important;
+}
+
+.status-no-show {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+/* DataTable responsive */
+@media screen and (max-width: 768px) {
+  .p-datatable .p-datatable-thead > tr > th,
+  .p-datatable .p-datatable-tbody > tr > td {
+    padding: 0.5rem;
+  }
+}
+
+/* Login page background */
+.login-background {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+/* KPI Card styles */
+.kpi-card {
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+.kpi-card.primary {
+  border-left-color: #6366f1;
+}
+
+.kpi-card.success {
+  border-left-color: #22c55e;
+}
+
+.kpi-card.warning {
+  border-left-color: #f59e0b;
+}
+
+.kpi-card.danger {
+  border-left-color: #ef4444;
+}
+
+.kpi-card.info {
+  border-left-color: #3b82f6;
+}
+
+/* Chart containers */
+.chart-container {
+  position: relative;
+  height: 300px;
+}
+
+/* ==========================================
+   LAYOUT STYLES
+   ========================================== */
+
+/* Layout wrapper */
+.layout-wrapper {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+/* Sidebar fijo para desktop */
+.layout-sidebar {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+  overflow-y: auto;
+}
+
+/* Sidebar móvil */
+.layout-sidebar-mobile {
+  width: 280px !important;
+  background-color: #ffffff !important;
+}
+
+.layout-sidebar-mobile .p-sidebar-content {
+  padding: 0 !important;
+  height: 100%;
+}
+
+/* Contenedor principal con margen para el sidebar */
+.layout-main {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+/* Header */
+.layout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.layout-header-title {
+  display: none;
+}
+
+/* Contenido principal */
+.layout-content {
+  padding: 1rem;
+}
+
+/* Botón de menú móvil */
+.layout-menu-button {
+  display: flex;
+}
+
+/* Nombre de usuario en header */
+.layout-user-name {
+  display: none;
+}
+
+/* Desktop: mostrar sidebar fijo */
+@media screen and (min-width: 992px) {
+  .layout-sidebar {
+    display: block;
+  }
+
+  .layout-main {
+    margin-left: 280px;
+  }
+
+  .layout-menu-button {
+    display: none !important;
+  }
+
+  .layout-header-title {
+    display: block;
+  }
+
+  .layout-content {
+    padding: 1.5rem;
+  }
+
+  .layout-user-name {
+    display: inline;
+  }
+}
+
+/* Responsive utilities */
+@media screen and (max-width: 640px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 641px) {
+  .show-on-mobile-only {
+    display: none !important;
+  }
+}
+
+/* ==========================================
+   INPUT ICON FIXES
+   ========================================== */
+
+/* Fix spacing for inputs with left icons */
+.p-input-icon-left > i:first-of-type,
+.p-input-icon-left > svg:first-of-type {
+  left: 0.75rem;
+}
+
+.p-input-icon-left > .p-inputtext {
+  padding-left: 2.5rem;
+}
+
+/* Fix spacing for inputs with right icons */
+.p-input-icon-right > i:last-of-type,
+.p-input-icon-right > svg:last-of-type {
+  right: 0.75rem;
+}
+
+.p-input-icon-right > .p-inputtext {
+  padding-right: 2.5rem;
+}
