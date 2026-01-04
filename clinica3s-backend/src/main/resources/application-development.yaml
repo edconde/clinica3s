@@ -1,24 +1,24 @@
 spring:
   # Base de datos H2 en memoria
   datasource:
-    url: jdbc:h2:mem:clinica3s
+    url: jdbc:h2:mem:clinica3s_db
     driver-class-name: org.h2.Driver
     username: sa
     password:
-  # H2 Database Console
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
   # JPA / Hibernate
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
     show-sql: true
-  # Liquibase (gestor de migraciones en la BD) deshabilitado en desarrollo
-  liquibase:
-    enabled: false
+    properties:
+      hibernate:
+        format_sql: true
+  # H2 Database Console
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
 # Configuración específica de la aplicación
 application:

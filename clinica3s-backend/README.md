@@ -30,7 +30,6 @@ Para crear este proyecto desde cero, utiliza [Spring Initializr](https://start.s
 - **H2 Database** - Base de datos en memoria para desarrollo
 - **MySQL Driver** - Driver para base de datos MySQL
 - **PostgreSQL Driver** - Driver para base de datos PostgreSQL (producción)
-- **Liquibase** - Para gestión de migraciones de base de datos
 - **Spring Boot Actuator** - Para monitorización de la aplicación
 - **Lombok** - Para reducir código boilerplate
 
@@ -77,7 +76,7 @@ Después de generar el proyecto, añade las siguientes dependencias:
 
 Puedes usar este enlace para generar el proyecto con la configuración base:
 
-[👉 Generar proyecto en Spring Initializr](https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.9&packaging=jar&jvmVersion=17&groupId=io.github.edconde&artifactId=clinica3s-backend&name=clinica3s%20backend&description=Backend%20para%20gesti%C3%B3n%20de%20cl%C3%ADnica%20-%20Clinica3S&packageName=io.github.edconde.clinica3s_backend&dependencies=web,data-jpa,security,validation,h2,mysql,postgresql,liquibase,actuator,lombok)
+[👉 Generar proyecto en Spring Initializr](https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.9&packaging=jar&jvmVersion=17&groupId=io.github.edconde&artifactId=clinica3s-backend&name=clinica3s%20backend&description=Backend%20para%20gesti%C3%B3n%20de%20cl%C3%ADnica%20-%20Clinica3S&packageName=io.github.edconde.clinica3s_backend&dependencies=web,data-jpa,security,validation,h2,mysql,postgresql,actuator,lombok)
 
 ---
 
@@ -91,7 +90,6 @@ Puedes usar este enlace para generar el proyecto con la configuración base:
 - **H2 Database** - Base de datos en memoria (desarrollo)
 - **MySQL** - Base de datos (soporte)
 - **PostgreSQL** - Base de datos (producción)
-- **Liquibase** - Gestión de migraciones de base de datos
 - **SpringDoc OpenAPI** - Documentación de API (Swagger)
 - **Datafaker** - Generación de datos de prueba
 - **Spring Boot Actuator** - Monitorización de la aplicación
@@ -304,17 +302,29 @@ Además se generan:
 - 10,000 pacientes aleatorios
 - ~20,000 citas (pasadas y futuras, con distribución realista)
 
-## Gestión de Base de Datos con Liquibase
+## Gestión de Esquema de Base de Datos
 
-El proyecto utiliza **Liquibase** para gestionar las migraciones de base de datos de forma controlada y versionada.
+El proyecto utiliza diferentes estrategias de gestión de esquema según el entorno:
 
-### Características:
-- Migraciones automáticas al iniciar la aplicación
-- Versionado de esquema de base de datos
-- Rollback de cambios si es necesario
-- Independiente del motor de base de datos
+### Development (H2)
+- **Hibernate DDL Auto**: `create-drop`
+- El esquema se crea automáticamente al iniciar y se elimina al cerrar
+- Datos de prueba generados por `DataInitializer.java`
 
-Los archivos de migración se encuentran en: `src/main/resources/db/changelog/`
+### Preproducción/Producción (PostgreSQL)
+- **Hibernate DDL Auto**: `validate` (solo valida, no modifica)
+- **Scripts SQL**: Esquema gestionado mediante:
+  - `schema-postgresql.sql` - Define la estructura de tablas (DDL)
+  - `data-postgresql.sql` - Inserta datos iniciales (DML)
+- **Inicialización automática**: `spring.sql.init.mode: always`
+- **Ubicación**: `src/main/resources/`
+- **Orden de ejecución**: schema → data → DataInitializer
+
+### Ventajas del enfoque actual:
+- Control total sobre el esquema SQL
+- Fácil revisión de cambios en control de versiones
+- Sin dependencias adicionales de herramientas de migración
+- Simplicidad en despliegues
 
 ## Monitorización con Actuator
 
@@ -345,7 +355,7 @@ Configuraciones principales:
 - Base de datos (H2, MySQL, PostgreSQL)
 - JWT (secret key, expiración)
 - Niveles de logging
-- Liquibase
+- Inicialización SQL (`spring.sql.init`)
 - Actuator
 
 ## Próximos Pasos

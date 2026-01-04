@@ -110,7 +110,7 @@ io.github.edconde.clinica3s_backend/
 
 **Endpoints principales:** `/api/auth`, `/api/users`, `/api/dentists`, `/api/patients`, `/api/appointments`, `/api/services`, `/api/specialties`, `/api/reports/dashboard`
 
-**Stack:** Spring Boot 3.5, Spring Security + JWT, Spring Data JPA, Liquibase, SpringDoc OpenAPI, Lombok
+**Stack:** Spring Boot 3.5, Spring Security + JWT, Spring Data JPA, SpringDoc OpenAPI, Lombok
 
 ### Frontend - Estructura
 

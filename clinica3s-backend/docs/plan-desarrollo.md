@@ -68,7 +68,25 @@ El proyecto está construido con **Spring Boot 3.5.9** y **Java 17**, utilizando
 ### Bases de Datos
 - **H2 Database** - Base de datos en memoria para desarrollo
 - **PostgreSQL Driver** - Base de datos para producción y preproducción
-- **Liquibase** - Gestión de migraciones de esquema de base de datos
+- **Scripts SQL** - Gestión de esquema mediante `schema-postgresql.sql` y `data-postgresql.sql` (inicialización con `spring.sql.init`)
+
+#### Gestión de Esquema de Base de Datos
+
+La aplicación utiliza diferentes estrategias según el entorno:
+
+**Desarrollo (`application-development.yaml`):**
+- Usa base de datos H2 en memoria
+- `spring.jpa.hibernate.ddl-auto: create-drop` - Hibernate crea y elimina el esquema automáticamente
+- Los datos de prueba se generan mediante `DataInitializer.java`
+
+**Preproducción/Producción (`application-preproduction.yaml`, `application-production.yaml`):**
+- Usa PostgreSQL
+- `spring.jpa.hibernate.ddl-auto: validate` - Hibernate solo valida el esquema, no lo modifica
+- `spring.sql.init.mode: always` - Spring Boot ejecuta scripts SQL al iniciar:
+  - `schema-postgresql.sql` - Define el esquema de la base de datos (DDL)
+  - `data-postgresql.sql` - Inserta datos iniciales (DML)
+- Los scripts se ejecutan automáticamente desde `src/main/resources/`
+- Orden de ejecución: schema → data → DataInitializer
 
 ### Seguridad
 - **JJWT** (jjwt-api, jjwt-impl, jjwt-jackson) - Implementación de autenticación con tokens JWT

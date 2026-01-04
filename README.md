@@ -145,8 +145,10 @@ clinica3s/
 │   │   │   └── resources/
 │   │   │       ├── application.yaml
 │   │   │       ├── application-development.yaml
-│   │   │       ├── application-production.yml
-│   │   │       └── db/changelog/  # Migraciones Liquibase
+│   │   │       ├── application-preproduction.yaml
+│   │   │       ├── application-production.yaml
+│   │   │       ├── schema-postgresql.sql
+│   │   │       └── data-postgresql.sql
 │   │   └── test/
 │   ├── docs/
 │   │   ├── plan-desarrollo.md     # Documentación técnica
@@ -190,7 +192,6 @@ clinica3s/
 | **JWT (JJWT)** | 0.12.6 | Tokens de autenticación |
 | **H2 Database** | 2.x | BD en memoria (desarrollo) |
 | **PostgreSQL** | - | BD producción |
-| **Liquibase** | 4.x | Migraciones de base de datos |
 | **SpringDoc OpenAPI** | 2.7.0 | Documentación Swagger |
 | **Datafaker** | 2.4.2 | Generación de datos de prueba |
 | **Lombok** | 1.18.x | Reducción de boilerplate |
@@ -423,7 +424,7 @@ Añadir al `pom.xml`:
 
 #### 2. Configurar perfil de producción
 
-Crear/modificar `application-production.yml`:
+Crear/modificar `application-production.yaml`:
 
 ```yaml
 spring:
@@ -439,18 +440,20 @@ spring:
       ddl-auto: validate
     show-sql: false
   
-  liquibase:
-    enabled: true
-    change-log: classpath:db/changelog/db.changelog-master.yaml
-
-jwt:
-  secret: ${JWT_SECRET}
-  expiration: ${JWT_EXPIRATION:86400000}
-
-cors:
-  allowed-origins: ${CORS_ALLOWED_ORIGINS}
+  # Inicialización de base de datos con scripts SQL
+  sql:
+    init:
+      mode: always
+      platform: postgresql
+      continue-on-error: true
 
 application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET}
+      expiration: ${JWT_EXPIRATION:86400000}
+    cors:
+      allowed-origins: ${CORS_ALLOWED_ORIGINS}
   users:
     admin:
       username: ${ADMIN_USERNAME:admin}
@@ -596,11 +599,12 @@ Acceder al frontend en `https://clinica3s-frontend.onrender.com` y verificar log
 - No incluir `/` al final de las URLs
 - Comprobar que el token JWT se envía correctamente
 
-### Migraciones de Liquibase fallan
+### Esquema de base de datos no se crea en PostgreSQL
 
-- Revisar logs de Liquibase en el arranque
-- Verificar que `db.changelog-master.yaml` está actualizado
-- Asegurar que `liquibase.enabled=true` en producción
+- Verificar que los archivos `schema-postgresql.sql` y `data-postgresql.sql` existen en `src/main/resources/`
+- Comprobar que `spring.sql.init.mode=always` está configurado
+- Revisar logs de inicio para detectar errores en la ejecución de scripts SQL
+- Asegurar que `spring.jpa.hibernate.ddl-auto=validate` (no debe ser `create` o `update` en producción)
 
 ### Aplicación "se duerme" (Render Free)
 

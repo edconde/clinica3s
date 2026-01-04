@@ -1,0 +1,68 @@
+spring:
+  # Base de datos PostgreSQL en producción
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  # JPA/Hibernate (producción - solo validación, NO auto-crear)
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  # =====================================================
+  # Inicialización de BD con scripts SQL
+  # =====================================================
+  # Spring Boot busca automáticamente en src/main/resources/:
+  #   - schema-postgresql.sql  → Creación de tablas (DDL)
+  #   - data-postgresql.sql    → Datos iniciales (DML)
+  #
+  # Orden de ejecución:
+  #   1. schema-postgresql.sql (si existe)
+  #   2. data-postgresql.sql (si existe)
+  #   3. DataInitializer.java (CommandLineRunner)
+  # =====================================================
+  sql:
+    init:
+      mode: always
+      platform: postgresql
+      continue-on-error: true
+      # Alternativa: especificar rutas explícitas (opcional)
+      # schema-locations: classpath:schema-postgresql.sql
+      # data-locations: classpath:data-postgresql.sql
+
+  # H2 Database Console Desactivada en producción
+  h2:
+    console:
+      enabled: false
+      path: /h2-console
+
+# Configuración específica de la aplicación
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET}
+      expiration: ${JWT_EXPIRATION:86400000} # 24 hours
+    # CORS Configuration (producción)
+    cors:
+      allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
+
+# Spring Boot Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+  
+# Logging (menos verboso en producción)
+logging:
+  level:
+    io.github.edconde.clinica3s_backend: INFO
+    org.springframework.security: WARN

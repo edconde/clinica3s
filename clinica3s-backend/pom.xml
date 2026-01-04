@@ -108,11 +108,6 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- Liquibase para gestión de migraciones -->
-		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
-		</dependency>
 		<!-- Spring Boot Actuator (monitorización) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
