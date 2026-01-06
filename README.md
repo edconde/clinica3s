@@ -375,12 +375,12 @@ El sistema utiliza **JSON Web Tokens (JWT)** para autenticación stateless:
 En modo **desarrollo**, el sistema genera automáticamente:
 
 - 1 usuario admin
-- 2-3 recepcionistas
+- 3 usuarios recepcionistas
 - 8 especialidades odontológicas
-- 5-8 dentistas con especialidades asignadas
-- 30-50 servicios categorizados
-- 100-200 pacientes
-- 300-500 citas con estados y pagos variados
+- 8 usuarios dentistas con especialidades asignadas
+- ~30 servicios categorizados
+- 10,000 pacientes aleatorios
+- ~20,000 citas con estados y pagos variados (pasadas y futuras, con distribución realista)
 
 Esto permite probar todas las funcionalidades sin configuración adicional.
 
