@@ -20,6 +20,7 @@ export default defineConfig({
     })
   ],
   build: {
+    outDir: 'docs', // Para GitHub Pages
     assetsInlineLimit: 0,
   },
   css: {
