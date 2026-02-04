@@ -20,7 +20,7 @@ export default defineConfig({
     })
   ],
   build: {
-    outDir: 'docs', // Para GitHub Pages
+    outDir: '../docs', // Para GitHub Pages, directorio /docs en la raíz del repositorio
     assetsInlineLimit: 0,
   },
   css: {
