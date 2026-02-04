@@ -8,7 +8,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+# No ignoramos /dist porque queremos que se despliegue en GitHub Pages
+# dist
 dist-ssr
 *.local
 
