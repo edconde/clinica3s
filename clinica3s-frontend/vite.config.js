@@ -19,6 +19,8 @@ export default defineConfig({
       ]
     })
   ],
+  // Nombre de tu repositorio en GitHub ya que este proyecto es subdirectorio de él
+  base: '/clinica3s/',
   build: {
     outDir: '../docs', // Para GitHub Pages, directorio /docs en la raíz del repositorio
     assetsInlineLimit: 0,
