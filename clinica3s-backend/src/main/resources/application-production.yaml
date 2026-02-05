@@ -45,7 +45,7 @@ spring:
 application:
   security:
     jwt:
-      secret-key: ${JWT_SECRET}
+      secret-key: ${JWT_SECRET} # Longitud 48-64 caracteres recomendada
       expiration: ${JWT_EXPIRATION:86400000} # 24 hours
     # CORS Configuration (producción)
     cors:
